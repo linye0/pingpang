@@ -1,0 +1,22 @@
+{
+  "name": "pingpang-training-frontend",
+  "version": "1.0.0",
+  "description": "乒乓球培训管理系统前端",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2",
+    "axios": "^0.27.2",
+    "element-ui": "^2.15.8",
+    "moment": "^2.29.3"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^5.0.4",
+    "vue-template-compiler": "^2.6.14"
+  }
+} 
