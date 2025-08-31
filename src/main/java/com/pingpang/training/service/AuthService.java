@@ -34,11 +34,11 @@ public class AuthService {
 
     public Map<String, Object> login(LoginRequest loginRequest) {
         try {
-            // 调试日志 - 记录前端传来的密码（仅用于调试）
+
             System.out.println("DEBUG: 尝试登录用户: " + loginRequest.getUsername());
             System.out.println("DEBUG: 前端传来的密码: " + loginRequest.getPassword());
             
-            // 生成这个密码的BCrypt哈希值用于对比
+
             String hashedPassword = passwordEncoder.encode(loginRequest.getPassword());
             System.out.println("DEBUG: 前端密码的BCrypt哈希值: " + hashedPassword);
             
@@ -72,7 +72,7 @@ public class AuthService {
         userInfo.put("realName", user.getRealName());
         userInfo.put("role", user.getRole());
         
-        // 处理可能为空的校区信息（如超级管理员）
+
         if (user.getCampus() != null) {
             userInfo.put("campusId", user.getCampus().getId());
             userInfo.put("campusName", user.getCampus().getName());

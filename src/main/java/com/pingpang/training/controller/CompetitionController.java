@@ -74,10 +74,7 @@ public class CompetitionController {
             return ApiResponse.error("获取可报名比赛失败: " + e.getMessage());
         }
     }
-    
-    /**
-     * 学员报名比赛
-     */
+
     @PostMapping("/{competitionId}/register")
     @PreAuthorize("hasRole('STUDENT')")
     public ApiResponse<?> registerForCompetition(@PathVariable Long competitionId,
@@ -97,9 +94,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 取消比赛报名
-     */
+
     @DeleteMapping("/registration/{registrationId}")
     @PreAuthorize("hasRole('STUDENT')")
     public ApiResponse<?> cancelRegistration(@PathVariable Long registrationId,
@@ -117,9 +112,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 获取学员的比赛报名记录
-     */
+
     @GetMapping("/my-registrations")
     @PreAuthorize("hasRole('STUDENT')")
     public ApiResponse<?> getMyRegistrations(@AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -132,9 +125,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 获取比赛详细信息
-     */
+
     @GetMapping("/{competitionId}")
     public ApiResponse<?> getCompetitionDetail(@PathVariable Long competitionId,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -153,9 +144,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 获取比赛完整赛程安排
-     */
+
     @GetMapping("/{competitionId}/schedule")
     public ApiResponse<?> getCompetitionSchedule(@PathVariable Long competitionId,
                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -191,9 +180,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 获取学员在某场比赛中的对战安排
-     */
+
     @GetMapping("/{competitionId}/my-matches")
     @PreAuthorize("hasRole('STUDENT')")
     public ApiResponse<?> getMyMatches(@PathVariable Long competitionId,
@@ -222,9 +209,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 生成或重新生成比赛赛程（管理员功能）
-     */
+
     @PostMapping("/{competitionId}/generate-schedule")
     @PreAuthorize("hasRole('CAMPUS_ADMIN') or hasRole('SUPER_ADMIN')")
     public ApiResponse<?> generateSchedule(@PathVariable Long competitionId,
@@ -252,9 +237,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 获取比赛的报名统计信息
-     */
+
     @GetMapping("/{competitionId}/registration-stats")
     public ApiResponse<?> getRegistrationStats(@PathVariable Long competitionId,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -287,9 +270,7 @@ public class CompetitionController {
         }
     }
     
-    /**
-     * 获取某个组别的具体对战安排
-     */
+
     @GetMapping("/{competitionId}/group/{group}/matches")
     public ApiResponse<?> getGroupMatches(@PathVariable Long competitionId,
                                         @PathVariable CompetitionGroup group,

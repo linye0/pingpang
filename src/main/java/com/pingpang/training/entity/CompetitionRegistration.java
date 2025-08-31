@@ -35,7 +35,7 @@ public class CompetitionRegistration {
         createdAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public CompetitionRegistration() {}
     
     public CompetitionRegistration(MonthlyCompetition competition, Student student, CompetitionGroup competitionGroup) {
@@ -44,7 +44,7 @@ public class CompetitionRegistration {
         this.competitionGroup = competitionGroup;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

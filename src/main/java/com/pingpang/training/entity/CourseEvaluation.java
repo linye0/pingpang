@@ -41,14 +41,14 @@ public class CourseEvaluation {
         updatedAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public CourseEvaluation() {}
     
     public CourseEvaluation(CourseBooking booking) {
         this.booking = booking;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
@@ -67,7 +67,7 @@ public class CourseEvaluation {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     
-    // 兼容性字段 - 学员评分
+    // 兼容性字段  学员评分
     @Column(name = "student_rating")
     private Integer studentRating;
     

@@ -48,8 +48,7 @@ public class SystemMessage {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-    
-    // Constructors
+
     public SystemMessage() {}
     
     public SystemMessage(User receiver, MessageType messageType, String title, String content) {
@@ -67,8 +66,7 @@ public class SystemMessage {
         this.content = content;
         this.relatedId = relatedId;
     }
-    
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

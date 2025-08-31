@@ -37,7 +37,7 @@ public class Student extends User {
         this.lastCancellationReset = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
     }
     
-    // Getters and Setters
+
     public BigDecimal getAccountBalance() { return accountBalance; }
     public void setAccountBalance(BigDecimal accountBalance) { this.accountBalance = accountBalance; }
     
@@ -56,7 +56,7 @@ public class Student extends User {
     public List<PaymentRecord> getPaymentRecords() { return paymentRecords; }
     public void setPaymentRecords(List<PaymentRecord> paymentRecords) { this.paymentRecords = paymentRecords; }
     
-    // 兼容性字段 - 紧急联系人信息
+
     @Column(length = 100)
     private String emergencyContact;
     

@@ -42,7 +42,7 @@ public class CoachStudentRelation {
         updatedAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public CoachStudentRelation() {}
     
     public CoachStudentRelation(Coach coach, Student student) {
@@ -50,7 +50,7 @@ public class CoachStudentRelation {
         this.student = student;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

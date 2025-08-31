@@ -18,7 +18,7 @@ public class CoachWorkingTime {
     private Coach coach;
     
     @Column(name = "day_of_week", nullable = false)
-    private Integer dayOfWeek; // 1=周一, 2=周二, ..., 7=周日
+    private Integer dayOfWeek;
     
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
@@ -27,13 +27,13 @@ public class CoachWorkingTime {
     private LocalTime endTime;
     
     @Column(name = "is_available", nullable = false)
-    private Boolean isAvailable = true; // 是否可预约
+    private Boolean isAvailable = true;
     
     @Column(name = "specific_date")
-    private LocalDate specificDate; // 特定日期的设置（覆盖周重复设置）
+    private LocalDate specificDate;
     
     @Column(name = "remarks")
-    private String remarks; // 备注（如：临时调整、休假等）
+    private String remarks;
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -53,7 +53,7 @@ public class CoachWorkingTime {
         this.updatedAt = LocalDateTime.now();
     }
     
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }

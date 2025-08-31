@@ -76,7 +76,7 @@ public class CoachChangeRequest {
         updatedAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public CoachChangeRequest() {}
     
     public CoachChangeRequest(Student student, Coach currentCoach, Coach newCoach, User campusAdmin, String reason) {
@@ -87,21 +87,21 @@ public class CoachChangeRequest {
         this.reason = reason;
     }
     
-    // 检查是否所有审核都通过
+
     public boolean isAllApproved() {
         return currentCoachApproval == ApprovalStatus.APPROVED &&
                newCoachApproval == ApprovalStatus.APPROVED &&
                adminApproval == ApprovalStatus.APPROVED;
     }
     
-    // 检查是否有任一方拒绝
+
     public boolean isAnyRejected() {
         return currentCoachApproval == ApprovalStatus.REJECTED ||
                newCoachApproval == ApprovalStatus.REJECTED ||
                adminApproval == ApprovalStatus.REJECTED;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

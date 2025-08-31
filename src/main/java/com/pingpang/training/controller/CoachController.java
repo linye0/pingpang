@@ -100,7 +100,7 @@ public class CoachController {
             relation = coachStudentRelationRepository.save(relation);
             System.out.println("师生关系保存成功，状态: " + relation.getStatus());
 
-            // 记录操作日志 - 使用独立事务避免影响主要操作
+
             try {
                 systemLogService.log(userDetails.getUser(), "RELATION_APPROVE", 
                     "同意学员申请: " + relation.getStudent().getRealName());
@@ -124,7 +124,7 @@ public class CoachController {
     public ApiResponse<?> rejectStudentRelation(@PathVariable Long relationId,
                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 教练拒绝学员申请开始 ===");
+            System.out.println("教练拒绝学员申请开始 ");
             System.out.println("申请ID: " + relationId);
             System.out.println("教练ID: " + userDetails.getUser().getId());
             
@@ -139,7 +139,7 @@ public class CoachController {
             relation = coachStudentRelationRepository.save(relation);
             System.out.println("师生关系保存成功，状态: " + relation.getStatus());
 
-            // 记录操作日志 - 使用独立事务避免影响主要操作
+
             try {
                 systemLogService.log(userDetails.getUser(), "RELATION_REJECT", 
                     "拒绝学员申请: " + relation.getStudent().getRealName());
@@ -148,10 +148,10 @@ public class CoachController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== 教练拒绝学员申请成功 ===");
+            System.out.println(" 教练拒绝学员申请成功 ");
             return ApiResponse.success("学员申请已拒绝", relation);
         } catch (Exception e) {
-            System.err.println("=== 教练拒绝学员申请失败 ===");
+            System.err.println(" 教练拒绝学员申请失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("操作失败: " + e.getMessage());
@@ -163,7 +163,7 @@ public class CoachController {
     public ApiResponse<?> terminateRelation(@PathVariable Long relationId,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 教练终止师生关系开始 ===");
+            System.out.println(" 教练终止师生关系开始 ");
             System.out.println("关系ID: " + relationId);
             System.out.println("教练ID: " + userDetails.getUser().getId());
             
@@ -178,7 +178,7 @@ public class CoachController {
             relation = coachStudentRelationRepository.save(relation);
             System.out.println("师生关系保存成功，状态: " + relation.getStatus());
 
-            // 记录操作日志 - 使用独立事务避免影响主要操作
+
             try {
                 systemLogService.log(userDetails.getUser(), "RELATION_TERMINATE", 
                     "终止师生关系: " + relation.getStudent().getRealName());
@@ -187,10 +187,10 @@ public class CoachController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== 教练终止师生关系成功 ===");
+            System.out.println(" 教练终止师生关系成功 ");
             return ApiResponse.success("师生关系已解除", relation);
         } catch (Exception e) {
-            System.err.println("=== 教练终止师生关系失败 ===");
+            System.err.println(" 教练终止师生关系失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("操作失败: " + e.getMessage());
@@ -201,7 +201,7 @@ public class CoachController {
     @GetMapping("/my-bookings")
     public ApiResponse<?> getMyBookings(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 获取教练所有课程开始 ===");
+            System.out.println(" 获取教练所有课程开始 ");
             System.out.println("教练ID: " + userDetails.getUser().getId());
             
             List<CourseBooking> bookings = courseBookingRepository.findByCoachId(userDetails.getUser().getId());
@@ -291,10 +291,10 @@ public class CoachController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== 教练确认预约成功 ===");
+            System.out.println(" 教练确认预约成功 ");
             return ApiResponse.success("课程预约已确认", booking);
         } catch (Exception e) {
-            System.err.println("=== 教练确认预约失败 ===");
+            System.err.println(" 教练确认预约失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("操作失败: " + e.getMessage());
@@ -307,7 +307,7 @@ public class CoachController {
                                        @RequestParam(required = false) String reason,
                                        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 教练拒绝预约开始 ===");
+            System.out.println(" 教练拒绝预约开始 ");
             System.out.println("预约ID: " + bookingId);
             System.out.println("拒绝原因: " + reason);
             
@@ -326,7 +326,7 @@ public class CoachController {
             booking = courseBookingRepository.save(booking);
             System.out.println("预约状态更新成功: " + booking.getStatus());
 
-            // 记录操作日志 - 使用独立事务避免影响主要操作
+
             try {
                 systemLogService.log(userDetails.getUser(), "BOOKING_REJECT", 
                     "拒绝课程预约: " + booking.getStudent().getRealName());
@@ -335,10 +335,10 @@ public class CoachController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== 教练拒绝预约成功 ===");
+            System.out.println(" 教练拒绝预约成功 ");
             return ApiResponse.success("课程预约已拒绝", booking);
         } catch (Exception e) {
-            System.err.println("=== 教练拒绝预约失败 ===");
+            System.err.println(" 教练拒绝预约失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("操作失败: " + e.getMessage());
@@ -350,7 +350,7 @@ public class CoachController {
     public ApiResponse<?> completeBooking(@PathVariable Long bookingId,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 教练完成课程开始 ===");
+            System.out.println(" 教练完成课程开始 ");
             System.out.println("预约ID: " + bookingId);
             
             CourseBooking booking = courseBookingRepository.findById(bookingId)
@@ -382,10 +382,10 @@ public class CoachController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== 教练完成课程成功 ===");
+            System.out.println(" 教练完成课程成功 ");
             return ApiResponse.success("课程已标记完成", booking);
         } catch (Exception e) {
-            System.err.println("=== 教练完成课程失败 ===");
+            System.err.println(" 教练完成课程失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("操作失败: " + e.getMessage());
@@ -398,7 +398,7 @@ public class CoachController {
     public ApiResponse<?> confirmCancelBooking(@PathVariable Long bookingId,
                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 教练确认取消预约开始 ===");
+            System.out.println(" 教练确认取消预约开始 ");
             System.out.println("预约ID: " + bookingId);
             
             CourseBooking booking = courseBookingRepository.findById(bookingId)
@@ -433,10 +433,10 @@ public class CoachController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== 教练确认取消预约成功 ===");
+            System.out.println(" 教练确认取消预约成功 ");
             return ApiResponse.success("已确认取消预约，费用已退还给学员", booking);
         } catch (Exception e) {
-            System.err.println("=== 教练确认取消预约失败 ===");
+            System.err.println("教练确认取消预约失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("操作失败: " + e.getMessage());
@@ -450,7 +450,7 @@ public class CoachController {
                                              @RequestParam(required = false) String reason,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 教练拒绝取消申请开始 ===");
+            System.out.println(" 教练拒绝取消申请开始 ");
             System.out.println("预约ID: " + bookingId);
             System.out.println("拒绝原因: " + reason);
             
@@ -474,7 +474,7 @@ public class CoachController {
             booking = courseBookingRepository.save(booking);
             System.out.println("预约状态更新成功: " + booking.getStatus());
 
-            // 记录操作日志 - 使用独立事务避免影响主要操作
+
             try {
                 systemLogService.log(userDetails.getUser(), "BOOKING_CANCEL_REJECT", 
                     "拒绝取消课程预约: " + booking.getStudent().getRealName());
@@ -483,7 +483,7 @@ public class CoachController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== 教练拒绝取消申请成功 ===");
+            System.out.println(" 教练拒绝取消申请成功");
             return ApiResponse.success("已拒绝取消申请", booking);
         } catch (Exception e) {
             System.err.println("=== 教练拒绝取消申请失败 ===");
@@ -493,11 +493,7 @@ public class CoachController {
         }
     }
 
-    // =============== 课程评价相关接口 ===============
-    
-    /**
-     * 获取教练待评价的课程列表
-     */
+
     @GetMapping("/pending-evaluations")
     public ApiResponse<?> getPendingEvaluations(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -552,9 +548,7 @@ public class CoachController {
         }
     }
 
-    /**
-     * 教练提交对学员的评价
-     */
+
     @PostMapping("/evaluations/{evaluationId}")
     public ApiResponse<?> submitCoachEvaluation(@PathVariable Long evaluationId,
                                                @RequestParam String evaluation,
@@ -777,7 +771,7 @@ public class CoachController {
                     ", 学员=" + (booking.getStudent() != null ? booking.getStudent().getRealName() : "null"));
             }
             
-            System.out.println("=== 获取周课表完成 ===");
+            System.out.println(" 获取周课表完成 ");
             return ApiResponse.success(schedule);
         } catch (Exception e) {
             System.err.println("获取课表失败: " + e.getMessage());
@@ -818,7 +812,7 @@ public class CoachController {
     public ApiResponse<?> getStudentBookings(@PathVariable Long studentId,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 获取学员课表开始 ===");
+            System.out.println("获取学员课表开始 ");
             System.out.println("学员ID: " + studentId);
             System.out.println("教练ID: " + userDetails.getUser().getId());
             System.out.println("教练用户名: " + userDetails.getUsername());
@@ -835,7 +829,7 @@ public class CoachController {
                 return ApiResponse.error("无权限查看该学员信息");
             }
             
-            System.out.println("师生关系验证通过，查询课程安排...");
+            System.out.println("师生关系验证通过，查询课程安排");
             
             // 获取该学员与当前教练的课程安排
             List<CourseBooking> bookings = courseBookingRepository
@@ -853,10 +847,10 @@ public class CoachController {
                 }
             }
             
-            System.out.println("=== 获取学员课表成功 ===");
+            System.out.println("获取学员课表成功 ");
             return ApiResponse.success(bookings);
         } catch (Exception e) {
-            System.err.println("=== 获取学员课表失败 ===");
+            System.err.println(" 获取学员课表失败 ");
             System.err.println("错误类型: " + e.getClass().getSimpleName());
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
@@ -869,7 +863,7 @@ public class CoachController {
     public ApiResponse<?> getStudentEvaluations(@PathVariable Long studentId,
                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 获取学员评价记录开始 ===");
+            System.out.println(" 获取学员评价记录开始 ");
             System.out.println("学员ID: " + studentId);
             System.out.println("教练ID: " + userDetails.getUser().getId());
             System.out.println("教练用户名: " + userDetails.getUsername());
@@ -899,32 +893,29 @@ public class CoachController {
                 if (evaluation.getBooking() != null) {
                     CourseBooking booking = evaluation.getBooking();
                     if (booking.getStudent() != null) {
-                        booking.getStudent().getRealName(); // 触发学员信息加载
+                        booking.getStudent().getRealName();
                     }
                     if (booking.getCoach() != null) {
-                        booking.getCoach().getRealName(); // 触发教练信息加载
+                        booking.getCoach().getRealName();
                     }
                 }
             }
             
-            System.out.println("=== 获取学员评价记录成功 ===");
+            System.out.println(" 获取学员评价记录成功 ");
             return ApiResponse.success(evaluations);
         } catch (Exception e) {
-            System.err.println("=== 获取学员评价记录失败 ===");
+            System.err.println(" 获取学员评价记录失败 ");
             System.err.println("错误类型: " + e.getClass().getSimpleName());
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("获取学员评价记录失败: " + e.getMessage());
         }
     }
-    
-    // ========== 工作时间管理 ==========
-    
-    // 获取教练的工作时间安排
+
     @GetMapping("/working-time")
     public ApiResponse<?> getWorkingTime(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 获取教练工作时间安排 ===");
+            System.out.println(" 获取教练工作时间安排 ");
             System.out.println("教练ID: " + userDetails.getUser().getId());
             
             // 获取周工作时间安排
@@ -950,7 +941,7 @@ public class CoachController {
     public ApiResponse<?> setWorkingTime(@RequestBody CoachWorkingTime workingTime,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 设置教练工作时间安排 ===");
+            System.out.println(" 设置教练工作时间安排 ");
             System.out.println("教练ID: " + userDetails.getUser().getId());
             System.out.println("星期: " + workingTime.getDayOfWeek());
             System.out.println("开始时间: " + workingTime.getStartTime());
@@ -979,7 +970,7 @@ public class CoachController {
     public ApiResponse<?> setWeeklyWorkingTime(@RequestBody List<CoachWorkingTime> weeklySchedule,
                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 批量设置教练周工作时间 ===");
+            System.out.println(" 批量设置教练周工作时间 ");
             System.out.println("教练ID: " + userDetails.getUser().getId());
             System.out.println("设置的时间段数量: " + weeklySchedule.size());
             
@@ -1024,7 +1015,7 @@ public class CoachController {
     public ApiResponse<?> deleteWorkingTime(@PathVariable Long id,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 删除工作时间安排 ===");
+            System.out.println(" 删除工作时间安排 ");
             System.out.println("工作时间ID: " + id);
             
             CoachWorkingTime workingTime = coachWorkingTimeRepository.findById(id)
@@ -1054,7 +1045,7 @@ public class CoachController {
                                                         @RequestParam(required = false) String remarks,
                                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 更新工作时间可用状态 ===");
+            System.out.println(" 更新工作时间可用状态 ");
             System.out.println("工作时间ID: " + id);
             System.out.println("新状态: " + isAvailable);
             
@@ -1153,7 +1144,7 @@ public class CoachController {
     @GetMapping("/debug/my-data")
     public ApiResponse<?> debugMyData(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 调试教练数据 ===");
+            System.out.println(" 调试教练数据 ");
             System.out.println("教练ID: " + userDetails.getUser().getId());
             System.out.println("教练姓名: " + userDetails.getUser().getRealName());
             
@@ -1214,7 +1205,7 @@ public class CoachController {
     @PostMapping("/debug/create-test-data")
     public ApiResponse<?> createTestData(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 创建测试课程数据 ===");
+            System.out.println(" 创建测试课程数据 ");
             Long coachId = userDetails.getUser().getId();
             System.out.println("教练ID: " + coachId);
             
@@ -1297,7 +1288,6 @@ public class CoachController {
         }
     }
 
-    // 创建测试课程数据 - GET版本（方便浏览器直接访问）
     @GetMapping("/debug/create-test-data")
     public ApiResponse<?> createTestDataGet(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return createTestData(userDetails);

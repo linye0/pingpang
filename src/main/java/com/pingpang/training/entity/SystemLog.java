@@ -35,8 +35,7 @@ public class SystemLog {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-    
-    // Constructors
+
     public SystemLog() {}
     
     public SystemLog(User user, String operationType, String description) {
@@ -45,7 +44,7 @@ public class SystemLog {
         this.description = description;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

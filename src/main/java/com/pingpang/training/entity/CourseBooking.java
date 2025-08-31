@@ -63,8 +63,7 @@ public class CourseBooking {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-    
-    // Constructors
+
     public CourseBooking() {}
     
     public CourseBooking(Student student, Coach coach, LocalDateTime startTime, LocalDateTime endTime, String tableNumber, BigDecimal cost) {
@@ -76,7 +75,7 @@ public class CourseBooking {
         this.cost = cost;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
@@ -104,7 +103,7 @@ public class CourseBooking {
     public String getRemarks() { return remarks; }
     public void setRemarks(String remarks) { this.remarks = remarks; }
     
-    // 兼容性方法 - notes字段的别名
+    // 兼容性方法  notes字段的别名
     public String getNotes() { return remarks != null ? remarks : ""; }
     public void setNotes(String notes) { this.remarks = notes; }
     
@@ -114,7 +113,7 @@ public class CourseBooking {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     
-    // 计算时长（分钟）
+    // 计算时长
     public Long getDuration() {
         if (startTime != null && endTime != null) {
             return java.time.Duration.between(startTime, endTime).toMinutes();

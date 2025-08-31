@@ -84,11 +84,7 @@ public class AdminController {
     @Autowired
     private CourseEvaluationRepository courseEvaluationRepository;
 
-    // =============== 评价管理相关接口 ===============
-    
-    /**
-     * 获取所有评价记录（管理员）
-     */
+
     @GetMapping("/evaluations")
     public ApiResponse<?> getAllEvaluations(@RequestParam(defaultValue = "0") int page,
                                            @RequestParam(defaultValue = "20") int size,
@@ -99,10 +95,10 @@ public class AdminController {
             List<CourseEvaluation> allEvaluations;
             
             if (admin.getRole() == UserRole.SUPER_ADMIN) {
-                // 超级管理员可以看到所有评价
+
                 allEvaluations = courseEvaluationRepository.findAll();
             } else {
-                // 校区管理员只能看到本校区的评价
+
                 if (admin.getCampus() == null) {
                     return ApiResponse.error("管理员未绑定校区");
                 }
@@ -113,7 +109,7 @@ public class AdminController {
                     .collect(java.util.stream.Collectors.toList());
             }
             
-            // 简单分页
+
             int startIndex = page * size;
             int endIndex = Math.min(startIndex + size, allEvaluations.size());
             
@@ -132,9 +128,7 @@ public class AdminController {
         }
     }
     
-    /**
-     * 获取评价统计信息（管理员）
-     */
+
     @GetMapping("/evaluations/statistics")
     public ApiResponse<?> getEvaluationStatistics(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -187,16 +181,14 @@ public class AdminController {
         }
     }
     
-    /**
-     * 获取特定教练的评价记录（管理员）
-     */
+
     @GetMapping("/evaluations/coach/{coachId}")
     public ApiResponse<?> getCoachEvaluations(@PathVariable Long coachId,
                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             User admin = userDetails.getUser();
             
-            // 验证教练权限
+
             Coach coach = coachRepository.findById(coachId)
                 .orElseThrow(() -> new RuntimeException("教练不存在"));
             
@@ -214,9 +206,7 @@ public class AdminController {
         }
     }
     
-    /**
-     * 获取特定学员的评价记录（管理员）
-     */
+
     @GetMapping("/evaluations/student/{studentId}")
     public ApiResponse<?> getStudentEvaluations(@PathVariable Long studentId,
                                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -293,7 +283,7 @@ public class AdminController {
             User user = userDetails.getUser();
             Long campusId = null;
             
-            // SUPER_ADMIN 可以查看所有校区的待审核教练，CAMPUS_ADMIN 只能查看自己校区的
+
             if (user.getRole() == UserRole.CAMPUS_ADMIN) {
                 if (user.getCampus() == null) {
                     return ApiResponse.error("管理员未绑定校区");
@@ -357,7 +347,7 @@ public class AdminController {
             User user = userDetails.getUser();
             List<User> users;
             
-            // SUPER_ADMIN 可以查看所有用户，CAMPUS_ADMIN 只能查看自己校区的
+
             if (user.getRole() == UserRole.SUPER_ADMIN) {
                 users = userService.getAllUsers();
             } else {
@@ -408,7 +398,7 @@ public class AdminController {
             User user = userDetails.getUser();
             List<Student> students;
             
-            // SUPER_ADMIN 可以查看所有学员，CAMPUS_ADMIN 只能查看自己校区的
+
             if (user.getRole() == UserRole.SUPER_ADMIN) {
                 students = studentRepository.findAll();
             } else {
@@ -518,7 +508,7 @@ public class AdminController {
             User user = userDetails.getUser();
             List<Coach> coaches;
             
-            // SUPER_ADMIN 可以查看所有教练，CAMPUS_ADMIN 只能查看自己校区的
+
             if (user.getRole() == UserRole.SUPER_ADMIN) {
                 coaches = coachRepository.findAll();
             } else {
@@ -712,7 +702,7 @@ public class AdminController {
             User user = userDetails.getUser();
             List<CourseBooking> bookings;
             
-            // SUPER_ADMIN 可以查看所有预约，CAMPUS_ADMIN 只能查看自己校区的
+
             if (user.getRole() == UserRole.SUPER_ADMIN) {
                 bookings = courseBookingRepository.findAll();
             } else {
@@ -1031,7 +1021,7 @@ public class AdminController {
             List<SystemMessage> messages;
             
             if (user.getRole() == UserRole.SUPER_ADMIN) {
-                // 超级管理员可以查看所有消息（这里可以根据需要调整）
+
                 messages = systemMessageService.getUserMessages(user.getId());
             } else {
                 // 校区管理员查看自己的消息
@@ -1181,7 +1171,7 @@ public class AdminController {
                 }
             }
             
-            // 额外验证：检查邮箱是否被其他用户使用（如果提供了邮箱）
+            // 额外验证：检查邮箱是否被其他用户使用
             if (request.getEmail() != null && !request.getEmail().trim().isEmpty() && 
                 !request.getEmail().equals(coach.getEmail())) {
                 Optional<User> existingUser = userRepository.findByUsername(request.getEmail());

@@ -76,8 +76,7 @@ public class User {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-    
-    // Constructors
+
     public User() {}
     
     public User(String username, String password, String realName, String phone, Campus campus, UserRole role) {
@@ -88,8 +87,7 @@ public class User {
         this.campus = campus;
         this.role = role;
     }
-    
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
@@ -126,7 +124,7 @@ public class User {
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
     
-    // 添加enabled方法以兼容Spring Security
+
     public Boolean getEnabled() { return active; }
     public void setEnabled(Boolean enabled) { this.active = enabled; }
     

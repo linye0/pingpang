@@ -57,7 +57,7 @@ public class SoftwareLicense {
         updatedAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public SoftwareLicense() {}
     
     public SoftwareLicense(String organizationName, String licenseKey, String deviceId, LocalDateTime startDate, LocalDateTime endDate) {
@@ -68,7 +68,7 @@ public class SoftwareLicense {
         this.endDate = endDate;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

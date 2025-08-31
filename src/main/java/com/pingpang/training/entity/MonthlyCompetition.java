@@ -73,8 +73,7 @@ public class MonthlyCompetition {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-    
-    // Constructors
+
     public MonthlyCompetition() {}
     
     public MonthlyCompetition(String name, LocalDateTime competitionDate, Campus campus) {
@@ -83,7 +82,7 @@ public class MonthlyCompetition {
         this.campus = campus;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

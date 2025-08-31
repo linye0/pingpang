@@ -46,7 +46,7 @@ public class Coach extends User {
         this.lastCancellationReset = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
     }
     
-    // Getters and Setters
+
     public CoachLevel getLevel() { return level; }
     public void setLevel(CoachLevel level) { this.level = level; }
     
@@ -67,8 +67,7 @@ public class Coach extends User {
     
     public List<CourseBooking> getCourseBookings() { return courseBookings; }
     public void setCourseBookings(List<CourseBooking> courseBookings) { this.courseBookings = courseBookings; }
-    
-    // 兼容性字段 - 专长（使用获奖信息作为专长）
+
     public String getSpecialty() { return achievements != null ? achievements : ""; }
     public void setSpecialty(String specialty) { this.achievements = specialty; }
 } 

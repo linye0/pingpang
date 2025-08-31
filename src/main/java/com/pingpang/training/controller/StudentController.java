@@ -89,7 +89,7 @@ public class StudentController {
     public ApiResponse<?> getAllCoaches(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             Long campusId = userDetails.getUser().getCampus().getId();
-            System.out.println("=== 获取教练列表 ===");
+            System.out.println(" 获取教练列表 ");
             System.out.println("校区ID: " + campusId);
             List<Coach> coaches = coachRepository.findApprovedByCampusId(campusId);
             System.out.println("查询到的教练数量: " + coaches.size());
@@ -198,7 +198,7 @@ public class StudentController {
                                           @RequestParam(required = false) String endTime,
                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 获取教练可预约时间段 ===");
+            System.out.println(" 获取教练可预约时间段 ");
             System.out.println("教练ID: " + coachId);
             System.out.println("开始时间: " + startTime);
             System.out.println("结束时间: " + endTime);
@@ -209,7 +209,7 @@ public class StudentController {
             
             // 1. 获取教练的工作时间设置
             LocalDate queryDate = start.toLocalDate();
-            int dayOfWeek = queryDate.getDayOfWeek().getValue(); // 1=周一, 7=周日
+            int dayOfWeek = queryDate.getDayOfWeek().getValue();
             
             System.out.println("查询日期: " + queryDate + ", 星期: " + dayOfWeek);
             
@@ -230,7 +230,7 @@ public class StudentController {
             for (CoachWorkingTime workingTime : workingTimes) {
                 if (!workingTime.getIsAvailable()) {
                     System.out.println("跳过不可用的工作时间: " + workingTime.getStartTime() + "-" + workingTime.getEndTime());
-                    continue; // 跳过不可用的时间段
+                    continue;
                 }
                 
                 // 检查该时间段是否被预约占用
@@ -241,7 +241,7 @@ public class StudentController {
                     LocalDateTime bookingStart = booking.getStartTime();
                     LocalDateTime bookingEnd = booking.getEndTime();
                     
-                    // 检查时间重叠 && 状态是PENDING或CONFIRMED
+
                     boolean timeOverlap = !(slotEnd.isBefore(bookingStart) || slotStart.isAfter(bookingEnd));
                     boolean validStatus = booking.getStatus() == BookingStatus.PENDING || 
                                         booking.getStatus() == BookingStatus.CONFIRMED;
@@ -292,21 +292,18 @@ public class StudentController {
             System.out.println("startTime: " + startTime);
             System.out.println("endTime: " + endTime);
             
-            // 尝试多种日期时间格式解析
+
             LocalDateTime start;
             LocalDateTime end;
             
             try {
-                // 首先尝试ISO格式 (2023-12-25T09:00:00.000Z)
                 start = LocalDateTime.parse(startTime.replace("Z", ""));
                 end = LocalDateTime.parse(endTime.replace("Z", ""));
             } catch (Exception e1) {
                 try {
-                    // 尝试标准格式 (2023-12-25T09:00:00)
                     start = LocalDateTime.parse(startTime);
                     end = LocalDateTime.parse(endTime);
                 } catch (Exception e2) {
-                    // 最后尝试自定义解析
                     start = LocalDateTime.parse(startTime.substring(0, 19));
                     end = LocalDateTime.parse(endTime.substring(0, 19));
                 }
@@ -576,9 +573,9 @@ public class StudentController {
             System.out.println("当前校区开放报名的比赛数量: " + competitions.size());
             
             if (competitions.isEmpty()) {
-                System.out.println("=== 警告：当前校区没有开放报名的比赛 ===");
+                System.out.println(" 当前校区没有开放报名的比赛 ");
                 
-                // 检查是否有该校区的比赛（不管是否开放报名）
+                // 检查是否有该校区的比赛
                 List<MonthlyCompetition> campusCompetitions = monthlyCompetitionRepository.findByCampusId(campusId);
                 System.out.println("当前校区所有比赛数量（包括关闭报名的）: " + campusCompetitions.size());
                 
@@ -590,7 +587,7 @@ public class StudentController {
                 }
             }
             
-            System.out.println("=== 返回比赛数据 ===");
+            System.out.println("返回比赛数据 ");
             return ApiResponse.success(competitions);
         } catch (Exception e) {
             System.err.println("获取可报名比赛失败: " + e.getMessage());
@@ -607,7 +604,7 @@ public class StudentController {
         try {
             Long studentId = userDetails.getUser().getId();
             
-            System.out.println("=== 比赛报名开始 ===");
+            System.out.println(" 比赛报名开始 ");
             System.out.println("比赛ID: " + competitionId);
             System.out.println("组别: " + group);
             System.out.println("学员ID: " + studentId);
@@ -640,16 +637,16 @@ public class StudentController {
             registration.setStudent(student);
             registration.setCompetitionGroup(group);
             
-            System.out.println("保存报名记录...");
+            System.out.println("保存报名记录");
             competitionRegistrationRepository.save(registration);
             
             // 再扣除报名费（事务内一起提交）
-            System.out.println("扣除报名费...");
+            System.out.println("扣除报名费");
             student.setAccountBalance(student.getAccountBalance().subtract(competition.getRegistrationFee()));
             studentRepository.save(student);
             
             // 记录支付（在同一事务内）
-            System.out.println("创建支付记录...");
+            System.out.println("创建支付记录");
             PaymentRecord payment = new PaymentRecord();
             payment.setStudent(student);
             payment.setAmount(competition.getRegistrationFee().negate());
@@ -658,7 +655,7 @@ public class StudentController {
             payment.setDescription("比赛报名费: " + competition.getName());
             paymentRecordRepository.save(payment);
             
-            // 记录操作日志（独立事务，失败不影响主流程）
+            // 记录操作日志
             try {
                 systemLogService.log(userDetails.getUser(), "COMPETITION_REGISTER", 
                     "报名比赛: " + competition.getName());
@@ -679,7 +676,7 @@ public class StudentController {
     public ApiResponse<?> getMyCompetitions(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             Long studentId = userDetails.getUser().getId();
-            System.out.println("=== 获取我的比赛 ===");
+            System.out.println(" 获取我的比赛 ");
             System.out.println("学员ID: " + studentId);
             
             List<CompetitionRegistration> registrations = competitionRegistrationRepository
@@ -735,11 +732,6 @@ public class StudentController {
         }
     }
 
-    // =============== 课程评价相关接口 ===============
-    
-    /**
-     * 获取学员待评价的课程列表
-     */
     @GetMapping("/pending-evaluations")
     public ApiResponse<?> getPendingEvaluations(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -779,9 +771,7 @@ public class StudentController {
         }
     }
     
-    /**
-     * 获取学员的评价记录
-     */
+
     @GetMapping("/my-evaluations")
     public ApiResponse<?> getMyEvaluations(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {

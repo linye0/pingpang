@@ -194,8 +194,6 @@ public class UserController {
             booking.setStartTime(request.getStartTime());
             booking.setEndTime(request.getEndTime());
             booking.setTableNumber(request.getTableNumber());
-            
-            // 修复：使用getRemarks()而不是getNotes()
             String remarks = request.getRemarks() != null ? request.getRemarks() : "";
             booking.setRemarks(remarks);
             
@@ -230,13 +228,11 @@ public class UserController {
                 return ApiResponse.error("已完成的课程不能取消");
             }
 
-            // 检查24小时限制
             LocalDateTime now = LocalDateTime.now();
             if (booking.getStartTime().isBefore(now.plusHours(24))) {
                 return ApiResponse.error("课程开始前24小时内不能取消预约");
             }
 
-            // 检查月取消次数限制
             Student student = studentRepository.findById(userDetails.getUser().getId()).get();
             if (student.getCancellationCount() >= 3) {
                 return ApiResponse.error("本月取消次数已达上限(3次)");
@@ -246,7 +242,6 @@ public class UserController {
             student.setCancellationCount(student.getCancellationCount() + 1);
             studentRepository.save(student);
 
-            // 设置预约状态为待取消确认
             booking.setStatus(BookingStatus.PENDING_CANCELLATION);
             if (reason != null && !reason.trim().isEmpty()) {
                 String existingRemarks = booking.getRemarks() != null ? booking.getRemarks() : "";
@@ -296,7 +291,7 @@ public class UserController {
                                                  @RequestParam String evaluation,
                                                  @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== UserController提交学员评价开始 ===");
+            System.out.println(" UserController提交学员评价开始 ");
             System.out.println("评价ID: " + evaluationId);
             
             CourseEvaluation courseEvaluation = courseEvaluationRepository.findById(evaluationId)
@@ -310,7 +305,6 @@ public class UserController {
             courseEvaluation = courseEvaluationRepository.save(courseEvaluation);
             System.out.println("评价记录保存成功");
 
-            // 记录操作日志 - 使用独立事务避免影响主要操作
             try {
                 systemLogService.log(userDetails.getUser(), "EVALUATION_SUBMIT", 
                     "提交课后评价: " + courseEvaluation.getBooking().getCoach().getRealName());
@@ -319,10 +313,10 @@ public class UserController {
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
-            System.out.println("=== UserController提交学员评价成功 ===");
+            System.out.println(" UserController提交学员评价成功 ");
             return ApiResponse.success("评价已提交", courseEvaluation);
         } catch (Exception e) {
-            System.err.println("=== UserController提交学员评价失败 ===");
+            System.err.println(" UserController提交学员评价失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
             return ApiResponse.error("提交评价失败: " + e.getMessage());
@@ -572,7 +566,6 @@ public class UserController {
             try {
                 systemLogService.log(userDetails.getUser(), "PROFILE_UPDATE", "更新学员信息");
             } catch (Exception logException) {
-                // 记录日志失败不应影响主要操作
                 System.err.println("System log failed but main operation succeeded: " + logException.getMessage());
             }
 
@@ -597,7 +590,6 @@ public class UserController {
         }
     }
 
-    // 统计信息 - 修复自引用错误
     @GetMapping("/statistics")
     @PreAuthorize("hasRole('STUDENT') or hasRole('SUPER_ADMIN')")
     public ApiResponse<?> getStudentStatistics(@AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -613,7 +605,7 @@ public class UserController {
 
             Student student = studentRepository.findById(studentId).get();
 
-            // 修复：使用Map避免自引用错误
+
             Map<String, Object> statisticsData = new HashMap<>();
             statisticsData.put("totalCoaches", coachesCount);
             statisticsData.put("pendingCoaches", pendingCoachesCount);
@@ -629,8 +621,7 @@ public class UserController {
         }
     }
     
-    // 消息管理功能
-    
+
     @GetMapping("/messages")
     public ApiResponse<?> getUserMessages(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -706,7 +697,7 @@ public class UserController {
         }
     }
 
-    // 私有方法
+
     private String generateTransactionNo() {
         return "TXN" + System.currentTimeMillis() + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }

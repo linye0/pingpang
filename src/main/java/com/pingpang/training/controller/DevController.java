@@ -191,7 +191,7 @@ public class DevController {
     @PostMapping("/create-test-user")
     public ApiResponse<String> createTestUser() {
         try {
-            // 创建一个简单的测试用户，密码是123456
+
             User testUser = new User();
             testUser.setUsername("testuser");
             testUser.setPassword(passwordEncoder.encode("123456"));  // BCrypt加密
@@ -317,25 +317,18 @@ public class DevController {
     @Transactional
     public ApiResponse<String> createComprehensiveTestData() {
         try {
-            // 1. 创建校区
             Campus campus = createTestCampus();
-            
-            // 2. 创建用户：学员、教练、管理员
+
             createTestUsers(campus);
-            
-            // 3. 创建师生关系
+
             createTestCoachStudentRelations();
-            
-            // 4. 创建课程预约
+
             createTestCourseBookings();
-            
-            // 5. 创建支付记录
+
             createTestPaymentRecords();
-            
-            // 6. 创建月度比赛
+
             createTestCompetitions(campus);
-            
-            // 7. 创建课程评价
+
             createTestEvaluations();
             
             return ApiResponse.success("综合测试数据创建成功！包括校区、用户、师生关系、课程预约、支付记录、比赛和评价数据");
@@ -1060,11 +1053,6 @@ public class DevController {
         }
     }
 
-    // =============== 评价功能测试工具 ===============
-    
-    /**
-     * 批量完成过期的课程（用于测试评价功能）
-     */
     @PostMapping("/complete-past-bookings")
     public ApiResponse<?> completePastBookings() {
         try {

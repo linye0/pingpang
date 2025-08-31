@@ -265,8 +265,6 @@ public class SuperAdminController {
             
             // 将用户角色降级为普通用户（根据原来角色确定）
             if (admin.getRole() == UserRole.CAMPUS_ADMIN) {
-                // 如果原来就是校区管理员，需要根据业务逻辑确定降级为什么角色
-                // 这里假设降级为学员，实际应用中可能需要更复杂的逻辑
                 admin.setRole(UserRole.STUDENT);
             }
             
@@ -299,7 +297,7 @@ public class SuperAdminController {
     @GetMapping("/available-users-for-admin")
     public ApiResponse<?> getAvailableUsersForAdmin() {
         try {
-            // 获取可以被指定为管理员的用户（排除超级管理员和已经是校区管理员的用户）
+            // 获取可以被指定为管理员的用户
             List<User> availableUsers = userRepository.findByRoleInAndActiveTrue(
                 Arrays.asList(UserRole.STUDENT, UserRole.COACH));
             return ApiResponse.success(availableUsers);

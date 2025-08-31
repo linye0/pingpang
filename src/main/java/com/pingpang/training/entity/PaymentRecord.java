@@ -33,18 +33,18 @@ public class PaymentRecord {
     @Column(length = 500)
     private String description;
     
-    // 新增字段支持线下支付管理
-    private String status = "SUCCESS"; // 支付状态
+
+    private String status = "SUCCESS";
     
-    private String receiptNumber; // 收据编号
+    private String receiptNumber;
     
-    private String operator; // 操作员（录入线下支付的管理员）
+    private String operator;
     
-    private String verificationNotes; // 验证备注
+    private String verificationNotes;
     
-    private String verifiedBy; // 验证人员
+    private String verifiedBy;
     
-    private LocalDateTime verifiedAt; // 验证时间
+    private LocalDateTime verifiedAt;
     
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -54,7 +54,7 @@ public class PaymentRecord {
         createdAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public PaymentRecord() {}
     
     public PaymentRecord(Student student, BigDecimal amount, PaymentMethod paymentMethod, String transactionNo) {
@@ -63,8 +63,7 @@ public class PaymentRecord {
         this.paymentMethod = paymentMethod;
         this.transactionNo = transactionNo;
     }
-    
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

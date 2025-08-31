@@ -44,10 +44,10 @@ public class CompetitionMatch {
     private Boolean isBye = false;
     
     @Column(name = "match_type")
-    private String matchType; // "全循环", "小组赛", "淘汰赛"
+    private String matchType;
     
     @Column(name = "group_name")
-    private String groupName; // 对于分组比赛，记录小组名称
+    private String groupName;
     
     @Column(name = "scheduled_time")
     private LocalDateTime scheduledTime;
@@ -63,7 +63,7 @@ public class CompetitionMatch {
     private Student winner;
     
     @Column(name = "match_status")
-    private String matchStatus = "SCHEDULED"; // SCHEDULED, IN_PROGRESS, COMPLETED, CANCELLED
+    private String matchStatus = "SCHEDULED";
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -82,7 +82,7 @@ public class CompetitionMatch {
         updatedAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public CompetitionMatch() {}
     
     public CompetitionMatch(MonthlyCompetition competition, CompetitionGroup competitionGroup, 
@@ -94,8 +94,7 @@ public class CompetitionMatch {
         this.player1 = player1;
         this.player2 = player2;
     }
-    
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

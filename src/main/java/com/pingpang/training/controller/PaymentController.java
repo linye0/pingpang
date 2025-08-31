@@ -302,10 +302,9 @@ public class PaymentController {
                 return ApiResponse.error("单次充值金额不能超过10000元");
             }
 
-            // 生成模拟订单号
             String orderNo = generateTransactionNo();
             
-            // 生成模拟二维码URL（实际项目中应该调用第三方支付API）
+            // 生成模拟二维码URL
             String qrCodeUrl = generateMockQRCodeUrl(amount, method, orderNo);
             
             Map<String, Object> result = new HashMap<>();
@@ -330,7 +329,7 @@ public class PaymentController {
                                            @RequestParam(required = false) String description,
                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
-            System.out.println("=== 模拟支付成功开始 ===");
+            System.out.println(" 模拟支付成功开始 ");
             System.out.println("订单号: " + orderNo);
             System.out.println("金额: " + amount);
             System.out.println("支付方式: " + paymentMethod);
@@ -347,9 +346,9 @@ public class PaymentController {
             record.setAmount(amount);
             record.setPaymentMethod(paymentMethod);
             record.setTransactionNo(orderNo);
-            record.setDescription(description != null ? description : "模拟在线支付");
+            record.setDescription(description != null ? description : "在线支付");
 
-            System.out.println("保存支付记录...");
+            System.out.println("保存支付记录");
             record = paymentRecordRepository.save(record);
             System.out.println("支付记录保存成功，ID: " + record.getId());
 
@@ -365,13 +364,13 @@ public class PaymentController {
             systemLogService.log(userDetails.getUser(), "MOCK_PAYMENT", 
                 "模拟支付成功: ¥" + amount + " (" + paymentMethod + ")");
 
-            System.out.println("=== 模拟支付成功完成 ===");
-            return ApiResponse.success("模拟支付成功", record);
+            System.out.println("支付成功完成 ");
+            return ApiResponse.success("支付成功", record);
         } catch (Exception e) {
-            System.err.println("=== 模拟支付失败 ===");
+            System.err.println(" 支付失败 ");
             System.err.println("错误信息: " + e.getMessage());
             e.printStackTrace();
-            return ApiResponse.error("模拟支付失败: " + e.getMessage());
+            return ApiResponse.error("支付失败: " + e.getMessage());
         }
     }
 
@@ -382,7 +381,6 @@ public class PaymentController {
 
     private String generateMockQRCodeUrl(BigDecimal amount, PaymentMethod method, String orderNo) {
         // 生成一个模拟的二维码图片URL
-        // 实际项目中这里应该调用微信/支付宝API生成真实的支付二维码
         String baseUrl = "https://api.qrserver.com/v1/create-qr-code/";
         String qrContent = String.format("MOCK_PAYMENT|%s|%s|%s", method.name(), amount, orderNo);
         try {

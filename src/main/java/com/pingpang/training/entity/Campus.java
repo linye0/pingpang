@@ -71,7 +71,7 @@ public class Campus {
         updatedAt = LocalDateTime.now();
     }
     
-    // Constructors
+
     public Campus() {}
     
     public Campus(String name, String address, String contactPerson, String contactPhone) {
@@ -81,7 +81,7 @@ public class Campus {
         this.contactPhone = contactPhone;
     }
     
-    // Getters and Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
